@@ -7,11 +7,14 @@ phraseArray = [];
 
   function startGame(){
     var phrase = prompt('Please enter the phrase you would like your opponent to guess!', 'Enter phrase here');
-
+    phrase = phrase.toLowerCase();
     setBlankLetters(phrase);
   }
 
 //creates blank letter tiles
+
+
+//why does setBlankLetters have access to phrase variable
 
   function setBlankLetters(phrase){
     //initialize interface to guessing state
