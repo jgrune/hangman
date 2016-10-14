@@ -15,20 +15,19 @@ main{
 div{
   border: 2px solid red;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  /*height: 100px;
-  margin: 0 auto;*/
 }
 
 aside{
   flex-grow: 1;
 }
 
-span{
-  /*display: block;*/
-  margin: 20px 0 0 0;
+p {
+  margin: 0;
 }
+
 
 .sidebar{
   height: 198px;
@@ -36,13 +35,39 @@ span{
 
 .footerdiv{
   margin: 10px 0 0 0;
-  height: 10vh;
+  height: 20vh;
   width: 100%;
+  /*display: flex;
+  flex-direction: row;*/
 }
 
-#phraseToGuess{
+.letterDiv{
+  /*border-style: solid;*/
+  border-bottom: thick solid red;
+  width: 20px;
+  margin: 15px 5px;
+}
+
+.spaceDiv{
+  /*border-style: solid;*/
+  border: none;
+  width: 20px;
+  margin: 15px 5px;
+}
+
+.letterSpan{
+  display: none;
+}
+
+section{
   display: flex;
-  flex-direction: column;
+  width: 75%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+h2{
+  margin: 5px auto;
 }
 
 #animation{
