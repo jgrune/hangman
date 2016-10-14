@@ -2,16 +2,18 @@ $(document).ready(function(){
 
 
 phraseArray = [];
-  //set click event for start button
+  //start button click event
   $("#startButton").on("click",startGame)
 
   function startGame(){
     var phrase = prompt('Please enter the phrase you would like your opponent to guess!', 'Enter phrase here');
-    // console.log(wordChoice);
-    displayHiddenPhrase(phrase);
+
+    setBlankLetters(phrase);
   }
 
-  function displayHiddenPhrase(phrase){
+//creates blank letter tiles
+
+  function setBlankLetters(phrase){
     //initialize interface to guessing state
     $("#letterSpaces>h2").text("");
     //add code to switch start button to reset button
@@ -19,7 +21,7 @@ phraseArray = [];
     //splits phrase letter array
     phraseArray = phrase.split("");
 
-    //sets letter fields
+    //generates letter fields
     phraseArray.forEach(function(letter){
       if(letter === " "){
         $('#letterSpaces>section').append("<div class='spaceDiv'><span class='letterSpan'>" + letter + "</span></div>")
@@ -28,27 +30,26 @@ phraseArray = [];
     }})
     $('#letterSpaces').append("<h2>Guess a letter!</h2>")
 
-    //set keypress event for document
-    $(document).on("keypress", checkLetter);
+    //begin listening for keypresses
+    $(document).on("keypress", validateLetter);
     }
 
-    function checkLetter(){
+    function validateLetter(){
       var letterGuess = event.key;
-      console.log(letterGuess);
 
-      phraseArray.forEach(function(letter){
-        if (letter === letterGuess){
-          var indexValue = phraseArray.indexOf(letter);
-          $('#letterSpaces .letterSpan').eq(indexValue).attr('style', 'display: block');
+      phraseArray.forEach(function(phraseLetter, i){
+        if (phraseLetter === letterGuess){
+          $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
+
         } else {
+//TO-DO ... ADD ELSE STATEMENT -- e.g., lose life
+          console.log('wrong letter - try again!');
 
-//TO-DO ... ADD ELSE STATEMENT
 
         }
       })
-      // letterPressed = $(evt).target
     }
-
+})
 
 
 
@@ -58,7 +59,3 @@ phraseArray = [];
 
 
   // -  As a user, I want to be able to see the letters that have been guessed correctly tracked in the chosen word;
-
-
-
-})
