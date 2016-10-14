@@ -19,6 +19,9 @@ phraseArray = [];
   function setBlankLetters(phrase){
     //initialize interface to guessing state
     $("#letterSpaces>h2").text("");
+
+    //is there a more efficient way to update image? object with various image states?
+    $("#animation").css('background', "rgba(255,255,255,0.8) url('images/Hangman-0.png'")
     //add code to switch start button to reset button
 
     //splits phrase letter array
