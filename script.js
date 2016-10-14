@@ -1,108 +1,92 @@
 $(document).ready(function(){
 
   var phrase = {
+    initialInput: [],
     array: [],
-    setLetters: function(letters){
-      letters.forEach(function(letter){
+    setLetters: function(letter){
+      phrase.array.forEach(function(letter){
         if(letter === " "){
-          var className = "space"
+          $('#letterSpaces>section').append("<div class='spaceDiv'><span class='letterSpan'>" + letter + "</span></div>");
         } else {
-          var className = "letter"
-        }
-        $('#letterSpaces>section').append("<div class='" + className + "Div'><span class='letterSpan'>" + letter + "</span></div>");
-      })
-    },
-    getWord: function(){
-      phrase.initialInput = prompt('Please enter the phrase you would like your opponent to guess!', 'Enter phrase here');
-      phrase.initialInput = phrase.initialInput.toLowerCase();
-      //initialize blank letter tiles
-      phrase.setLetters(phrase.initialInput.split(""));
-    }
-  }
+          $('#letterSpaces>section').append("<div class='letterDiv'><span class='letterSpan'>" + letter + "</span></div>");
+        }})}
+      }
 
       var gameState = {
-        hangmanImage: [0,1,2,3,4,5].map(function(i){
-          return "rgba(255,255,255,0.8) url('images/Hangman-" + i + ".png') no-repeat center"
-        }),
+        hangmanImage: {
+          img0: "rgba(255,255,255,0.8) url('images/Hangman-0.png') no-repeat center",
+          img1: "rgba(255,255,255,0.8) url('images/Hangman-1.png') no-repeat center",
+          img2: "rgba(255,255,255,0.8) url('images/Hangman-2.png') no-repeat center",
+          img3: "rgba(255,255,255,0.8) url('images/Hangman-3.png') no-repeat center",
+          img4: "rgba(255,255,255,0.8) url('images/Hangman-4.png') no-repeat center",
+          img5: "rgba(255,255,255,0.8) url('images/Hangman-5.png') no-repeat center",
+        },
         unusedLetters: [],
         score: 0,
-        timer: 0,
-        lives: 6
+        timer: 0
       }
 
       //start button click event
-      $("#startButton").on("click", startGame)
+      $("#startButton").on("click",startGame)
 
       function startGame(){
-        phrase.getWord();
+        phrase.initialInput = prompt('Please enter the phrase you would like your opponent to guess!', 'Enter phrase here');
+        phrase.initialInput = phrase.initialInput.toLowerCase();
+        initializeScreen();
+      }
 
+      function initializeScreen(){
         //remove intruction text
         $("#letterSpaces>h2").text("");
         //hide start button
         $("#startButton").css('visibility', 'hidden');
         //set initial hangman image
-        $("#animation").css('background', gameState.hangmanImage[0]);
-        //set score
-        $("#score").append('<div>' + gameState.score + '</div>')
+        $("#animation").css('background', gameState.hangmanImage.img0);
         //initialize unused letters module
         gameState.unusedletters = "abcdefghijklmnopqrstuvwxyz".split("");
         gameState.unusedletters.forEach(function(value){
           $("#usedletters").append("<span class='unused'>" + value + "</span>");
         })
+        //initialize blank letter tiles
+        phrase.array = phrase.initialInput.split("");
+        phrase.setLetters();
         $('#letterSpaces').append("<h2>Guess a letter!</h2>")
         //begin listening for keypresses
-        $(document).on("keypress", function(){
-          // if letter in word,
-            //update letter tiles then update score
-          // else decrease lives
-          //
-        });
+        $(document).on("keypress", validateLetter);
       }
 
-      function validateLetter(event){
+      function validateLetter(){
         var letterGuess = event.key;
+        //set letter coloring
         var unusedIndex = gameState.unusedletters.indexOf(letterGuess);
-
-        //check if letter has already been guessed
-        if($('#usedletters span').eq(unusedIndex).hasClass('used')) {
-          console.log("used letter");
-        } else{
-        //change coloring of guessed letter
         $('#usedletters span').eq(unusedIndex).removeClass('unused').addClass('used');
 
-        //joins array into string so check for 'includes' can be performed
-        var letterCheck = phrase.array.join()
-          if(letterCheck.includes(letterGuess)){
+      //set a variable letterCheck that stores either a letter in phrase or "undefined"
+      var letterCheck = phrase.array.find(function(letter){
+            return letterGuess === letter;
+          });
+      // console.log(letterCheck);
+        // if(typeof letterCheck !== "undefined"){
+        if(letterCheck){
             console.log("match");
+
             //checking for multiples - could refactor to use filter with index parameter
             phrase.array.forEach(function(phraseLetter, i){
-              if (letterGuess === phraseLetter){
-                $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
-                addToScore();
-              } else {
-              }
-            })
+                if (letterGuess === phraseLetter){
+                  $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
+                } else {
+                }
+              })
           } else {
             console.log("no match");
-            updateLives();
+            //****add code to lose a life***
           }
         }
-      }
 
-      function addToScore(){
-        gameState.score += 10;
-        $("#score div").text(gameState.score);
-      }
-
-      function updateLives(){
-        var i = 0;
-        $("#animation").css('background', gameState.hangmanImage[i]);
-        i++;
-        gameState.lives--;
-    }
+    })
 
 
-})
+
 
 
     // -  As a user, I want to be able to enter a word to be guessed so that another user can guess the word during gameplay;
