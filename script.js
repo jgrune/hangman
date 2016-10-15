@@ -44,18 +44,21 @@ $(document).ready(function(){
       $('#letterSpaces').append("<h2>Guess a letter!</h2>")
     },
     score: 0,
+    maxTime: 20,
     timer: 0,
-    lives: 6
   }
+
 
 
 
       //start button click event
       $("#startButton").on("click", startGame)
+      $("#resetButton").on("click", resetGame)
 
       function startGame(){
         phrase.getWord();
         gameState.initializeScreen();
+        startTimer();
           //begin listening for keypresses
         $(document).on("keypress", validateLetter)
       }
@@ -98,9 +101,36 @@ $(document).ready(function(){
       function updateLives(){
         $("#animation").css('background', gameState.hangmanImage[gameState.imageCounter]);
         gameState.imageCounter++;
-        gameState.lives--;
-    }
+        console.log(gameState.imageCounter);
+          if (gameState.imageCounter === 7){
+            setTimeout(function(){
+              resetState();
+            }, 800);
+          }
+      }
 
+      function startTimer (){
+        setInterval(function(){
+              $("#timer>div").html(gameState.timer);
+              gameState.timer++;
+              if(gameState.timer > gameState.maxTime){
+                clearInterval(gameState.startTimer);
+              }
+            }, 1000)}
+
+
+
+//reset functionality needs work...
+
+      function resetState(){
+        $('#resetButton').attr('style', 'display: block');
+        $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
+      }
+
+      function resetGame(){
+        $('#resetButton').attr('style', 'display: hidden');
+        $('#animation').attr('background', 'rgba(255,255,255,0.8)')
+      }
 
 })
 

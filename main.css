@@ -28,6 +28,10 @@ button {
     font-size: 16px;*/
 }
 
+#resetButton {
+  display: none;
+}
+
 div{
   /*border: 2px solid red;*/
   display: flex;
@@ -151,7 +155,7 @@ footer{
   box-shadow:0 10px 20px 0 rgba(0, 0, 0, 0.8)
 }
 
-#score div{
+#score>div, #timer>div{
   margin: 100px 0 0 0;
   font-size: 60px;
   text-shadow: 2px 2px #ff0000;
