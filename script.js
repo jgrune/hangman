@@ -60,7 +60,6 @@ $(document).ready(function(){
 
   //set score
   $("#score").append("<div id='gameScore'>" + gameState.score + '</div>');
-// console.log(sessionStorage.highScore);
   if (typeof(Storage) !== "undefined") {
     if(sessionStorage.highScore){
     $("#score").append('High Score:'+ '<div id="highScore">' + sessionStorage.highScore + '</div>')
@@ -87,9 +86,11 @@ $(document).ready(function(){
     var unusedIndex = gameState.unusedletters.indexOf(letterGuess);
 
     //check if letter has already been guessed
+    if(event.keyCode !== 32 || 13 || 9 || 16){
+
     if($('#usedletters span').eq(unusedIndex).hasClass('used')) {
       console.log("used letter");
-    } else{
+    } else {
       //change coloring of guessed letter
       $('#usedletters span').eq(unusedIndex).removeClass('unused').addClass('used');
 
@@ -106,11 +107,11 @@ $(document).ready(function(){
           }
         })
       } else {
-        console.log("no match");
         loseLife();
       }
     }
   }
+}
 
   function addToScore(){
     gameState.score += 10;
@@ -125,7 +126,6 @@ $(document).ready(function(){
   function loseLife(){
     $("#animation").css('background', gameState.hangmanImage[gameState.imageCounter]);
     gameState.imageCounter++;
-    console.log(gameState.imageCounter);
     if (gameState.imageCounter === 7){
       setTimeout(function(){
         resetState('loss');
@@ -146,7 +146,6 @@ $(document).ready(function(){
 
   function checkWin (){
     if (phrase.correctGuesses === (phrase.array.length - phrase.spaceCount)){
-      console.log("you win!");
       if (!sessionStorage.highScore || (gameState.score > sessionStorage.highScore)){
         sessionStorage.highScore = gameState.score;
     }
