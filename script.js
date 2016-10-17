@@ -80,7 +80,6 @@ $(document).ready(function(){
     phrase.getWord();
     gameState.initializeScreen();
     countDown = setInterval(startTimer, 1000);
-
   }
 
   function validateLetter(event){
@@ -159,7 +158,7 @@ $(document).ready(function(){
     clearInterval(countDown);
     $(document).off("keypress")
       if (result === 'win'){
-          $('#animation').css('background-color', 'rgba(0,255,0,0.8)')
+          // $('#animation').css('background-color', 'rgba(0,255,0,0.8)')
           $('#winButton').attr('style', 'display: block').focus();
 
         } else{
