@@ -1,5 +1,14 @@
 $(document).ready(function(){
 
+// high score code
+if (typeof(Storage) !== "undefined") {
+    console.log(sessionStorage.getItem("highScore"))
+} else {
+    console.log("Sorry, your browser does not support Web Storage...");
+}
+
+
+
   var phrase = {
     array: [],
     getWord: function(){
@@ -120,6 +129,8 @@ $(document).ready(function(){
   function checkWin (){
     if (phrase.correctGuesses === phrase.array.length){
       console.log("you win!");
+      if (gameState.score > sessionStorage.highScore){
+      sessionStorage.highScore = gameState.score;}
       resetState();
     }
   }
@@ -129,10 +140,10 @@ $(document).ready(function(){
     $(document).off("keypress")
       if (phrase.correctGuesses === phrase.array.length){
           $('#animation').css('background-color', 'rgba(0,255,0,0.8)')
-          $('#winButton').attr('style', 'display: block');}
-          else{
+          $('#winButton').attr('style', 'display: block').focus();
+        } else{
               $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
-              $('#resetButton').attr('style', 'display: block');
+              $('#resetButton').attr('style', 'display: block').focus();
     }
   }
 
