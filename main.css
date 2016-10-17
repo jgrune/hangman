@@ -15,6 +15,16 @@ body{
   height: 100vh;
   color: white;
 }
+
+#skull{
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  display: none;
+  opacity: 70%;
+  color: red;
+}
+
 header{
   background-color: rgba(10,10,10,0.7)
 }
@@ -25,7 +35,7 @@ main{
 
 button {
     background-color: black;
-    border: 2px solid red;
+    border: 2px solid #B70015;
     color: white;
     font-family: 'devil', cursive;
     letter-spacing: 2px;
@@ -52,17 +62,19 @@ button {
 }
 
 div{
-  /*border: 2px solid red;*/
+  /*border: 2px solid #B70015;*/
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
 }
 
 aside{
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  font-size: 24px;
 }
 
 section{
@@ -74,14 +86,33 @@ section{
 }
 
 h1{
-  color: red;
+  color: #B70015;
   font-size: 50px;
+  text-shadow: 4px 4px #000;
+}
 
+#guess{
+  animation: test 1s 4;
+}
+
+@keyframes test {
+  0% {color: #B70015;}
+  50% {color: white;}
+  100% {color: #B70015;}
+}
+
+h3{
+  text-shadow: 4px 4px #000;
+  color: #B9BEBE;
+  animation: skull 2s infinite;
 }
 
 h2{
   margin: 5px auto;
+  text-shadow: 4px 4px #000;
+  color: #B70015
 }
+
 p {
   margin: 0;
 }
@@ -133,7 +164,7 @@ footer{
 
 .letterDiv{
   border: none;
-  border-bottom: thick solid red;
+  border-bottom: thick solid #B70015;
   width: 20px;
   margin: 0px 5px;
 }
@@ -179,7 +210,7 @@ footer{
 
 #score>div, #timer>div{
   font-size: 60px;
-  text-shadow: 2px 2px #ff0000;
+  text-shadow: 2px 2px #B70015;
 }
 
 .newHighScore{

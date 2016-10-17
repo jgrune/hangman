@@ -50,7 +50,7 @@ $(document).ready(function(){
       gameState.unusedletters.forEach(function(value){
         $("#usedletters").append("<span class='unused'>" + value + "</span>");
       })
-      $('#letterSpaces').append("<h2>Guess a letter!</h2>")
+      $('#letterSpaces').append("<h2 id='guess'>Guess a letter!</h2>")
     },
     score: 0,
     timer: 59,
@@ -163,6 +163,7 @@ $(document).ready(function(){
           $('#winButton').attr('style', 'display: block').focus();
 
         } else{
+              $('#skull').css('animation', 'skull 1s infinite');
               $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
               $('#resetButton').attr('style', 'display: block').focus();
     }
