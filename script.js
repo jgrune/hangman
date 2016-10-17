@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-// high score code
+// high score code - test
 
 
 
