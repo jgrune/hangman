@@ -162,9 +162,11 @@ $(document).ready(function(){
           $('#winButton').attr('style', 'display: block').focus();
 
         } else{
-              $('#skull').css('animation', 'skull 1s infinite');
-              $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
-              $('#resetButton').attr('style', 'display: block').focus();
+          phrase.array.forEach(function(phraseLetter, i){
+              $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
+            });
+          $('#animation').css('background-color', 'rgba(255,0,0,0.8)');
+          $('#resetButton').attr('style', 'display: block').focus();
     }
   }
 //testing
