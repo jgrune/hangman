@@ -11,7 +11,7 @@ $(document).ready(function(){
     },
     setLetters: function(letters){
       letters.forEach(function(letter){
-        if(letter === " "){
+        if(letter === " "){q
           var className = "space"
         } else {
           var className = "letter"
@@ -51,91 +51,89 @@ $(document).ready(function(){
 
 
 
-      //start button click event
-      $("#startButton").on("click", startGame)
-      $("#resetButton").on("click", resetGame)
+  //start button click event
+  $("#startButton").on("click", startGame)
+  $("#resetButton").on("click", resetGame)
 
-      function startGame(){
-        phrase.getWord();
-        gameState.initializeScreen();
-        startTimer();
-          //begin listening for keypresses
-        $(document).on("keypress", validateLetter)
-      }
+  function startGame(){
+    phrase.getWord();
+    gameState.initializeScreen();
+    startTimer();
+    //begin listening for keypresses
+    $(document).on("keypress", validateLetter)
+  }
 
-      function validateLetter(event){
-        var letterGuess = event.key;
-        var unusedIndex = gameState.unusedletters.indexOf(letterGuess);
+  function validateLetter(event){
+    var letterGuess = event.key;
+    var unusedIndex = gameState.unusedletters.indexOf(letterGuess);
 
-        //check if letter has already been guessed
-        if($('#usedletters span').eq(unusedIndex).hasClass('used')) {
-          console.log("used letter");
-        } else{
-        //change coloring of guessed letter
-        $('#usedletters span').eq(unusedIndex).removeClass('unused').addClass('used');
+    //check if letter has already been guessed
+    if($('#usedletters span').eq(unusedIndex).hasClass('used')) {
+      console.log("used letter");
+    } else{
+      //change coloring of guessed letter
+      $('#usedletters span').eq(unusedIndex).removeClass('unused').addClass('used');
 
-        //joins array into string so check for 'includes' can be performed
-        var letterCheck = phrase.array.join()
-          if(letterCheck.includes(letterGuess)){
-            console.log("match");
-            //checking for multiples - could refactor to use filter with index parameter
-            phrase.array.forEach(function(phraseLetter, i){
-              if (letterGuess === phraseLetter){
-                $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
-                addToScore();
-              } else {
-              }
-            })
+
+      if(phrase.initialInput.includes(letterGuess)){
+        //checking for multiples - could refactor to use filter with index parameter
+        phrase.array.forEach(function(phraseLetter, i){
+          if (letterGuess === phraseLetter){
+            $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
+            addToScore();
           } else {
-            console.log("no match");
-            updateLives();
           }
-        }
+        })
+      } else {
+        console.log("no match");
+        loseLife();
       }
+    }
+  }
 
-      function addToScore(){
-        gameState.score += 10;
-        $("#score div").text(gameState.score);
+  function addToScore(){
+    gameState.score += 10;
+    $("#score div").text(gameState.score);
+  }
+
+  function loseLife(){
+    $("#animation").css('background', gameState.hangmanImage[gameState.imageCounter]);
+    gameState.imageCounter++;
+    console.log(gameState.imageCounter);
+    if (gameState.imageCounter === 7){
+      setTimeout(function(){
+        resetState();
+      }, 800);
+    }
+  }
+
+  function startTimer (){
+    setInterval(function(){
+      $("#timer>div").html(gameState.timer);
+      gameState.timer++;
+      if(gameState.timer > gameState.maxTime){
+        clearInterval(gameState.startTimer);
       }
-
-      function updateLives(){
-        $("#animation").css('background', gameState.hangmanImage[gameState.imageCounter]);
-        gameState.imageCounter++;
-        console.log(gameState.imageCounter);
-          if (gameState.imageCounter === 7){
-            setTimeout(function(){
-              resetState();
-            }, 800);
-          }
-      }
-
-      function startTimer (){
-        setInterval(function(){
-              $("#timer>div").html(gameState.timer);
-              gameState.timer++;
-              if(gameState.timer > gameState.maxTime){
-                clearInterval(gameState.startTimer);
-              }
-            }, 1000)}
+    }, 1000)}
 
 
 
-//reset functionality needs work...
+    //reset functionality needs work...
 
-      function resetState(){
-        $('#resetButton').attr('style', 'display: block');
-        $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
-      }
+    function resetState(){
+      $('#resetButton').attr('style', 'display: block');
+      $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
+    }
 
-      function resetGame(){
-        $('#resetButton').attr('style', 'display: hidden');
-        $('#animation').attr('background', 'rgba(255,255,255,0.8)')
-      }
+    function resetGame(){
+      $('#resetButton').attr('style', 'display: hidden');
+      $('#animation').attr('background', 'rgba(255,255,255,0.8)')
+    }
 
-})
-
-
-    // -  As a user, I want to be able to enter a word to be guessed so that another user can guess the word during gameplay;
+  })
 
 
-    // -  As a user, I want to be able to see the letters that have been guessed correctly tracked in the chosen word;
+  // -  As a user, I want to be able to enter a word to be guessed so that another user can guess the word during gameplay;
+
+
+  // -  As a user, I want to be able to see the letters that have been guessed correctly tracked in the chosen word;
