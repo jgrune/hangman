@@ -167,7 +167,7 @@ $(document).ready(function(){
               $('#resetButton').attr('style', 'display: block').focus();
     }
   }
-
+//test
   function resetGame(){
     window.location.reload();
   }
