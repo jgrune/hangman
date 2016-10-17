@@ -25,7 +25,16 @@ button {
     font-family: 'Bungee Inline', cursive;
     padding: 15px;
     text-decoration: none;
-    font-size: 16px;*/
+    font-size: 14px;
+    width: 250px;
+    height: 75px;
+    animation:  buttonMove 1s infinite;
+}
+
+@keyframes buttonMove {
+  0% { font-size: 14px }
+  50% { font-size: 16px }
+  100% { font-size: 14px}
 }
 
 #resetButton {
@@ -160,7 +169,6 @@ footer{
 }
 
 #score>div, #timer>div{
-  margin: 100px 0 0 0;
   font-size: 60px;
   text-shadow: 2px 2px #ff0000;
 }

@@ -1,11 +1,7 @@
 $(document).ready(function(){
 
 // high score code
-if (typeof(Storage) !== "undefined") {
-    console.log(sessionStorage.getItem("highScore"))
-} else {
-    console.log("Sorry, your browser does not support Web Storage...");
-}
+
 
 
 
@@ -21,6 +17,7 @@ if (typeof(Storage) !== "undefined") {
                   letters.forEach(function(letter){
                     if(letter === " "){
                       var className = "space"
+                      phrase.spaceCount++;
                     } else {
                       var className = "letter"
                       }
@@ -28,6 +25,7 @@ if (typeof(Storage) !== "undefined") {
                   })
                 },
     correctGuesses: 0,
+    spaceCount: 0,
 
   }
 
@@ -43,8 +41,10 @@ if (typeof(Storage) !== "undefined") {
       $("#startButton").css('visibility', 'hidden');
       //set initial hangman image
       $("#animation").css('background', gameState.hangmanImage[0]);
-      //set score
-      $("#score").append('<div>' + gameState.score + '</div>')
+
+      //set high score
+
+
       //initialize unused letters module
       gameState.unusedletters = "abcdefghijklmnopqrstuvwxyz".split("");
       gameState.unusedletters.forEach(function(value){
@@ -53,11 +53,23 @@ if (typeof(Storage) !== "undefined") {
       $('#letterSpaces').append("<h2>Guess a letter!</h2>")
     },
     score: 0,
-    timer: 60,
+    timer: 59,
   }
 
   var countDown;
 
+  //set score
+  $("#score").append("<div id='gameScore'>" + gameState.score + '</div>');
+// console.log(sessionStorage.highScore);
+  if (typeof(Storage) !== "undefined") {
+    if(sessionStorage.highScore){
+    $("#score").append('High Score:'+ '<div id="highScore">' + sessionStorage.highScore + '</div>')
+    } else{
+    $("#score").append('High Score:'+ '<div id="highScore">' + '0' + '</div>')
+    }
+  } else {
+      console.log("Sorry, your browser does not support Web Storage...");
+  }
 
   //start button click event
   $("#startButton").on("click", startGame)
@@ -68,8 +80,7 @@ if (typeof(Storage) !== "undefined") {
     phrase.getWord();
     gameState.initializeScreen();
     countDown = setInterval(startTimer, 1000);
-    //begin listening for keypresses
-    $(document).on("keypress", validateLetter)
+
   }
 
   function validateLetter(event){
@@ -104,7 +115,12 @@ if (typeof(Storage) !== "undefined") {
 
   function addToScore(){
     gameState.score += 10;
-    $("#score div").text(gameState.score);
+    $("#score #gameScore").text(gameState.score);
+
+    if (!sessionStorage.highScore || (gameState.score > sessionStorage.highScore)){
+      $("#score #gameScore").text(gameState.score).css({'color': 'green', 'text-shadow': '2px 2px #ffffff'});
+      $("#score #highScore").text(gameState.score).css({'color': 'green', 'text-shadow': '2px 2px #ffffff'});;
+    }
   }
 
   function loseLife(){
@@ -113,34 +129,39 @@ if (typeof(Storage) !== "undefined") {
     console.log(gameState.imageCounter);
     if (gameState.imageCounter === 7){
       setTimeout(function(){
-        resetState();
+        resetState('loss');
       }, 200);
     }
   }
 
   function startTimer (){
+    //begin listening for keypresses
+    $(document).on("keypress", validateLetter)
+
       $("#timer>div").html(gameState.timer);
       gameState.timer--;
       if(gameState.timer === -1){
-        resetState();
+        resetState('loss');
       }
     }
 
   function checkWin (){
-    if (phrase.correctGuesses === phrase.array.length){
+    if (phrase.correctGuesses === (phrase.array.length - phrase.spaceCount)){
       console.log("you win!");
-      if (gameState.score > sessionStorage.highScore){
-      sessionStorage.highScore = gameState.score;}
-      resetState();
+      if (!sessionStorage.highScore || (gameState.score > sessionStorage.highScore)){
+        sessionStorage.highScore = gameState.score;
+    }
+      resetState('win');
     }
   }
 
-  function resetState(){
+  function resetState(result){
     clearInterval(countDown);
     $(document).off("keypress")
-      if (phrase.correctGuesses === phrase.array.length){
+      if (result === 'win'){
           $('#animation').css('background-color', 'rgba(0,255,0,0.8)')
           $('#winButton').attr('style', 'display: block').focus();
+
         } else{
               $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
               $('#resetButton').attr('style', 'display: block').focus();
