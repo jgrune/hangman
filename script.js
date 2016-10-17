@@ -3,22 +3,22 @@ $(document).ready(function(){
   var phrase = {
     array: [],
     getWord: function(){
-      phrase.initialInput = prompt('Please enter the phrase you would like your opponent to guess!', 'Enter phrase here');
-      phrase.initialInput = phrase.initialInput.toLowerCase();
-      //initialize blank letter tiles
-      phrase.array = phrase.initialInput.split("");
-      phrase.setLetters(phrase.array);
-    },
+                phrase.initialInput = prompt('Please enter the phrase you would like your opponent to guess!', 'Enter phrase here').toLowerCase();
+                //initialize blank letter tiles
+                phrase.array = phrase.initialInput.split("");
+                phrase.setLetters(phrase.array);
+              },
     setLetters: function(letters){
-      letters.forEach(function(letter){
-        if(letter === " "){q
-          var className = "space"
-        } else {
-          var className = "letter"
-        }
+                  letters.forEach(function(letter){
+                    if(letter === " "){
+                      var className = "space"
+                    } else {
+                      var className = "letter"
+                      }
         $('#letterSpaces>section').append("<div class='" + className + "Div'><span class='letterSpan'>" + letter + "</span></div>");
-      })
-    },
+                  })
+                },
+    correctGuesses: 0,
 
   }
 
@@ -44,21 +44,21 @@ $(document).ready(function(){
       $('#letterSpaces').append("<h2>Guess a letter!</h2>")
     },
     score: 0,
-    maxTime: 20,
-    timer: 0,
+    timer: 60,
   }
 
-
+  var countDown;
 
 
   //start button click event
   $("#startButton").on("click", startGame)
   $("#resetButton").on("click", resetGame)
+  $("#winButton").on("click", resetGame)
 
   function startGame(){
     phrase.getWord();
     gameState.initializeScreen();
-    startTimer();
+    countDown = setInterval(startTimer, 1000);
     //begin listening for keypresses
     $(document).on("keypress", validateLetter)
   }
@@ -81,6 +81,8 @@ $(document).ready(function(){
           if (letterGuess === phraseLetter){
             $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
             addToScore();
+            phrase.correctGuesses++;
+            checkWin();
           } else {
           }
         })
@@ -103,32 +105,40 @@ $(document).ready(function(){
     if (gameState.imageCounter === 7){
       setTimeout(function(){
         resetState();
-      }, 800);
+      }, 200);
     }
   }
 
   function startTimer (){
-    setInterval(function(){
       $("#timer>div").html(gameState.timer);
-      gameState.timer++;
-      if(gameState.timer > gameState.maxTime){
-        clearInterval(gameState.startTimer);
+      gameState.timer--;
+      if(gameState.timer === -1){
+        resetState();
       }
-    }, 1000)}
-
-
-
-    //reset functionality needs work...
-
-    function resetState(){
-      $('#resetButton').attr('style', 'display: block');
-      $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
     }
 
-    function resetGame(){
-      $('#resetButton').attr('style', 'display: hidden');
-      $('#animation').attr('background', 'rgba(255,255,255,0.8)')
+  function checkWin (){
+    if (phrase.correctGuesses === phrase.array.length){
+      console.log("you win!");
+      resetState();
     }
+  }
+
+  function resetState(){
+    clearInterval(countDown);
+    $(document).off("keypress")
+      if (phrase.correctGuesses === phrase.array.length){
+          $('#animation').css('background-color', 'rgba(0,255,0,0.8)')
+          $('#winButton').attr('style', 'display: block');}
+          else{
+              $('#animation').css('background-color', 'rgba(255,0,0,0.8)')
+              $('#resetButton').attr('style', 'display: block');
+    }
+  }
+
+  function resetGame(){
+    window.location.reload();
+  }
 
   })
 
