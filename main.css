@@ -1,8 +1,13 @@
+@font-face{
+font-family:'devil';
+src: url('fonts/MYBLS___.ttf');
+}
+
 body{
   background: url('images/messy_rope.jpg');
   background-position: center;
   background-size: cover;
-  font-family: 'Bungee Inline', cursive;
+  font-family: 'devil', cursive;
   text-align: center;
   margin: 0;
   display: flex;
@@ -22,7 +27,8 @@ button {
     background-color: black;
     border: 2px solid red;
     color: white;
-    font-family: 'Bungee Inline', cursive;
+    font-family: 'devil', cursive;
+    letter-spacing: 2px;
     padding: 15px;
     text-decoration: none;
     font-size: 14px;
@@ -69,7 +75,10 @@ section{
 
 h1{
   color: red;
+  font-size: 50px;
+
 }
+
 h2{
   margin: 5px auto;
 }
@@ -171,4 +180,15 @@ footer{
 #score>div, #timer>div{
   font-size: 60px;
   text-shadow: 2px 2px #ff0000;
+}
+
+.newHighScore{
+  text-shadow: 2px 2px #ffffff;
+  animation: colorChange 1s infinite;
+}
+
+@keyframes colorChange {
+  0% {color: black;}
+  50% {color: green;}
+  100% {color: black;}
 }

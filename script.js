@@ -118,8 +118,8 @@ $(document).ready(function(){
     $("#score #gameScore").text(gameState.score);
 
     if (!sessionStorage.highScore || (gameState.score > sessionStorage.highScore)){
-      $("#score #gameScore").text(gameState.score).css({'color': 'green', 'text-shadow': '2px 2px #ffffff'});
-      $("#score #highScore").text(gameState.score).css({'color': 'green', 'text-shadow': '2px 2px #ffffff'});;
+      $("#score #gameScore").text(gameState.score).addClass('newHighScore');
+      $("#score #highScore").text(gameState.score).addClass('newHighScore');
     }
   }
 
