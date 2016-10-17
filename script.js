@@ -86,31 +86,30 @@ $(document).ready(function(){
     var unusedIndex = gameState.unusedletters.indexOf(letterGuess);
 
     //check if letter has already been guessed
-    if(event.keyCode !== 32 || 13 || 9 || 16){
-
-    if($('#usedletters span').eq(unusedIndex).hasClass('used')) {
-      console.log("used letter");
-    } else {
-      //change coloring of guessed letter
-      $('#usedletters span').eq(unusedIndex).removeClass('unused').addClass('used');
-
-
-      if(phrase.initialInput.includes(letterGuess)){
-        //checking for multiples - could refactor to use filter with index parameter
-        phrase.array.forEach(function(phraseLetter, i){
-          if (letterGuess === phraseLetter){
-            $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
-            addToScore();
-            phrase.correctGuesses++;
-            checkWin();
-          } else {
-          }
-        })
+    if(event.keyCode !== 32 && 13 && 9 && 16){
+      if($('#usedletters span').eq(unusedIndex).hasClass('used')) {
+        console.log("used letter");
       } else {
-        loseLife();
+        //change coloring of guessed letter
+        $('#usedletters span').eq(unusedIndex).removeClass('unused').addClass('used');
+
+
+        if(phrase.initialInput.includes(letterGuess)){
+          //checking for multiples - could refactor to use filter with index parameter
+          phrase.array.forEach(function(phraseLetter, i){
+            if (letterGuess === phraseLetter){
+              $('#letterSpaces .letterSpan').eq(i).attr('style', 'display: block');
+              addToScore();
+              phrase.correctGuesses++;
+              checkWin();
+            } else {
+            }
+          })
+        } else {
+          loseLife();
+        }
       }
     }
-  }
 }
 
   function addToScore(){
