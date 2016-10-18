@@ -2,9 +2,6 @@ $(document).ready(function(){
 
 // high score code - test
 
-
-
-
   var phrase = {
     array: [],
     getWord: function(){
